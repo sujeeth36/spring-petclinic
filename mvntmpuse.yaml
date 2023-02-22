@@ -7,4 +7,4 @@ trigger:
 steps: 
   - template: ./mvtmp.yaml
     parameters: 
-       - package
+      - package
