@@ -1,0 +1,22 @@
+---
+pipeline {
+    agent { label 'maven_jdk17' }
+    stages {
+        stage('git') {
+            steps {
+                git url: 'https://github.com/sujeeth36/spring-petclinic.git' ,
+                    branch: 'main' ,
+            }
+        }
+        stage('package') {
+            steps {
+                sh 'export PATH="/usr/lib/jvm/java-1.17.0-openjdk-amd64/bin:$PATH" && mvn package'
+            }
+        }
+         stage('post build') {
+            steps {
+                archiveArtifacts artifacts: '**/target/spring-petclinic.jar',
+                                 onlyIfSuccessful: true
+                junit testResults: '**/surefire-reports/TEST-*.xml'
+    }
+}
